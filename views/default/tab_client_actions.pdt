@@ -1,0 +1,28 @@
+	
+	<div id="change_password">
+		<h4><?php $this->_("Virtualmin.tab_client_actions.change_password");?></h4>
+		
+		<?php
+		$this->Form->create($this->base_uri . "services/manage/" . $this->Html->ifSet($service_id) . "/tabClientActions/");
+		?>
+		<div class="col-md-12">
+			<div class="form-group">
+				<?php
+				$this->Form->label($this->_("Virtualmin.tab_client_actions.field_virtualmin_password", true), "virtualmin_password");
+				$this->Form->fieldPassword("virtualmin_password", array('id' => "virtualmin_password", 'class'=>"form-control", 'placeholder'=>$this->_("Virtualmin.tab_client_actions.field_virtualmin_password", true)));
+				?>
+			</div>
+            <div class="form-group">
+				<?php
+				$this->Form->label($this->_("Virtualmin.tab_client_actions.field_virtualmin_confirm_password", true), "virtualmin_password");
+				$this->Form->fieldPassword("virtualmin_confirm_password", array('id' => "virtualmin_confirm_password", 'class'=>"form-control", 'placeholder'=>$this->_("Virtualmin.tab_client_actions.field_virtualmin_confirm_password", true)));
+				?>
+			</div>
+		</div>
+		<button class="btn btn-default pull-right">
+			<i class="fa fa-edit"></i> <?php $this->_("Virtualmin.tab_client_actions.field_password_submit");?>
+		</button>
+		<?php
+		$this->Form->end();
+		?>
+	</div>

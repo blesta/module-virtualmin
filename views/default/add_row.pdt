@@ -1,0 +1,63 @@
+		<?php
+		$this->Widget->clear();
+		$this->Widget->setLinkButtons(array());
+		$this->Widget->create($this->_("Virtualmin.add_row.box_title", true));
+		?>
+		<div class="inner">
+			<?php
+			$this->Form->create();
+			$this->Form->fieldHidden("account_count", $this->Html->ifSet($vars->account_count, 0));
+			?>
+			<div class="title_row first">
+				<h3><?php $this->_("Virtualmin.add_row.basic_title");?></h3>
+			</div>
+			<div class="pad">
+				<ul>
+					<li>
+						<?php
+						$this->Form->label($this->_("Virtualmin.row_meta.server_name", true), "server_name");
+						$this->Form->fieldText("server_name", $this->Html->ifSet($vars->server_name));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("Virtualmin.row_meta.host_name", true), "host_name");
+						$this->Form->fieldText("host_name", $this->Html->ifSet($vars->host_name));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("Virtualmin.row_meta.user_name", true), "user_name");
+						$this->Form->fieldText("user_name", $this->Html->ifSet($vars->user_name));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("Virtualmin.row_meta.port", true), "port");
+						$this->Form->fieldText("port", $this->Html->ifSet($vars->port));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->fieldCheckbox("use_ssl", "true", $this->Html->ifSet($vars->use_ssl, "true") == "true", array('id'=>"use_ssl"));
+						$this->Form->label($this->_("Virtualmin.row_meta.use_ssl", true), "use_ssl", array('class'=>"inline"));
+						?>
+					</li>
+					<li>
+						<?php
+						$this->Form->label($this->_("Virtualmin.row_meta.password", true), "password");
+						$this->Form->fieldPassword("password", $this->Html->ifSet($vars->password));
+						?>
+					</li>
+				</ul>
+			</div>
+
+
+			<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("Virtualmin.add_row.add_btn");?></a></div>
+			<?php
+			$this->Form->end();
+			?>
+		</div>
+		<?php
+		$this->Widget->end();
+		?>

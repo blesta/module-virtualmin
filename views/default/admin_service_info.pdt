@@ -1,0 +1,35 @@
+	<table class="table">
+		<tr class="heading_row">
+			<td class="fixed_small center border_none"><span class="paymnt_arrow"></span></td>
+			<td class="border_left"><?php $this->_("Virtualmin.service_info.username");?></td>
+			<td><?php $this->_("Virtualmin.service_info.password");?></td>
+			<td><?php $this->_("Virtualmin.service_info.server");?></td>
+			<td class="last"><?php $this->_("Virtualmin.service_info.options");?></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><?php $this->Html->_($service_fields->virtualmin_username);?></td>
+			<td><?php $this->Html->_($service_fields->virtualmin_password);?></td>
+			<td><?php $this->Html->_($module_row->meta->host_name);?></td>
+			<td>
+				<?php
+				$this->Form->create($this->Html->safe(($this->Html->ifSet($module_row->meta->use_ssl) == 'true' ? "https://" : "http://") . $this->Html->ifSet($module_row->meta->host_name) . ":".$this->Html->ifSet($module_row->meta->port)), array('target' => "_blank"));
+				$this->Form->fieldHidden("user", $this->Html->ifSet($service_fields->virtualmin_username));
+				$this->Form->fieldHidden("password", $this->Html->ifSet($service_fields->virtualmin_password));
+				?>
+				<a id="virtualmin_login<?php $this->Html->_($service->id);?>" href="#"><?php $this->_("Virtualmin.service_info.option_login");?></a>
+				<?php
+				$this->Form->end();
+				?>
+			</td>
+		</tr>
+	</table>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#virtualmin_login<?php $this->Html->_($service->id);?>').click(function(e) {
+				e.preventDefault();
+
+				$(this).closest('form').submit();
+			});
+		});
+	</script>
