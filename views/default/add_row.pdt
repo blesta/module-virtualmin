@@ -53,7 +53,7 @@
 			</div>
 
 
-			<div class="button_row"><a class="btn_right submit" href="#"><?php $this->_("Virtualmin.add_row.add_btn");?></a></div>
+			<div class="button_row"><a class="btn btn-primary pull-right submit" href="#"><?php $this->_("Virtualmin.add_row.add_btn");?></a></div>
 			<?php
 			$this->Form->end();
 			?>
