@@ -897,7 +897,7 @@ class Virtualmin extends Module
 
             if (isset($response->status) && isset($response->error) && $response->status !== 'success') {
                 $this->log($row->meta->host_name . '|create-domain', serialize($response), 'output');
-                $this->Input->setErrors($response->error);
+                $this->Input->setErrors(array(array($response->error)));
             }
 
             if ($this->Input->errors()) {
@@ -1007,7 +1007,7 @@ class Virtualmin extends Module
 
             if (isset($response->status) && isset($response->error) && $response->status !== 'success') {
                 $this->log($row->meta->host_name . '|modify-domain', serialize($response), 'output');
-                $this->Input->setErrors($response->error);
+                $this->Input->setErrors(array(array($response->error)));
             } else {
                 $this->log($row->meta->host_name . '|modify-domain', serialize($response), 'output', true);
             }
@@ -1074,7 +1074,7 @@ class Virtualmin extends Module
             );
             if (isset($response->status) && isset($response->error) && $response->status !== 'success') {
                 $this->log($row->meta->host_name . '|disable-domain', serialize($response), 'output');
-                $this->Input->setErrors($response->error);
+                $this->Input->setErrors(array(array($response->error)));
             } else {
                 $this->log($row->meta->host_name . '|disable-domain', serialize($response), 'output', true);
             }
@@ -1119,7 +1119,7 @@ class Virtualmin extends Module
 
             if (isset($response->status) && isset($response->error) && $response->status !== 'success') {
                 $this->log($row->meta->host_name . '|enable-domain', serialize($response), 'output');
-                $this->Input->setErrors($response->error);
+                $this->Input->setErrors(array(array($response->error)));
             } else {
                 $this->log($row->meta->host_name . '|enable-domain', serialize($response), 'output', true);
             }
@@ -1166,7 +1166,7 @@ class Virtualmin extends Module
 
             if (isset($response->status) && isset($response->error) && $response->status !== 'success') {
                 $this->log($row->meta->host_name . '|delete-domain', serialize($response), 'output');
-                $this->Input->setErrors($response->error);
+                $this->Input->setErrors(array(array($response->error)));
             } else {
                 $this->log($row->meta->host_name . '|delete-domain', serialize($response), 'output', true);
             }
@@ -1220,7 +1220,7 @@ class Virtualmin extends Module
 
             if (isset($response->status) && isset($response->error) && $response->status !== 'success') {
                 $this->log($row->meta->host_name . '|modify-domain', serialize($response), 'output');
-                $this->Input->setErrors($response->error);
+                $this->Input->setErrors(array(array($response->error)));
             } else {
                 $this->log($row->meta->host_name . '|modify-domain', serialize($response), 'output', true);
             }
