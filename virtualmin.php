@@ -12,58 +12,20 @@ use Blesta\Core\Util\Validate\Server;
  */
 class Virtualmin extends Module
 {
-
-    /**
-     * @var string The version of this module
-     */
-    private static $version = '1.4.0';
-
-    /**
-     * @var string The authors of this module
-     */
-    private static $authors = [['name' => 'Phillips Data, Inc.', 'url' => 'http://www.blesta.com']];
-
     /**
      * Initializes the module
      */
     public function __construct()
     {
+        // Load configuration required by this module
+        $this->loadConfig(dirname(__FILE__) . DS . 'config.json');
+
         // Load components required by this module
         Loader::loadComponents($this, ['Input', 'Net']);
         $this->Http = $this->Net->create('Http');
 
         // Load the language required by this module
         Language::loadLang('virtualmin', null, dirname(__FILE__) . DS . 'language' . DS);
-    }
-
-    /**
-     * Returns the name of this module
-     *
-     * @return string The common name of this module
-     */
-    public function getName()
-    {
-        return Language::_('Virtualmin.name', true);
-    }
-
-    /**
-     * Returns the version of this gateway
-     *
-     * @return string The current version of this gateway
-     */
-    public function getVersion()
-    {
-        return self::$version;
-    }
-
-    /**
-     * Returns the name and url of the authors of this module
-     *
-     * @return array The name and url of the authors of this module
-     */
-    public function getAuthors()
-    {
-        return self::$authors;
     }
 
     /**
@@ -95,46 +57,6 @@ class Virtualmin extends Module
             'tabClientActions' => Language::_('Virtualmin.tab_client_actions', true),
             'tabClientStats' => Language::_('Virtualmin.tab_stats', true)
         ];
-    }
-
-    /**
-     * Returns a noun used to refer to a module row (e.g. 'Server')
-     *
-     * @return string The noun used to refer to a module row
-     */
-    public function moduleRowName()
-    {
-        return Language::_('Virtualmin.module_row', true);
-    }
-
-    /**
-     * Returns a noun used to refer to a module row in plural form (e.g. 'Servers', 'VPSs', 'Reseller Accounts', etc.)
-     *
-     * @return string The noun used to refer to a module row in plural form
-     */
-    public function moduleRowNamePlural()
-    {
-        return Language::_('Virtualmin.module_row_plural', true);
-    }
-
-    /**
-     * Returns a noun used to refer to a module group (e.g. 'Server Group')
-     *
-     * @return string The noun used to refer to a module group
-     */
-    public function moduleGroupName()
-    {
-        return Language::_('Virtualmin.module_group', true);
-    }
-
-    /**
-     * Returns the key used to identify the primary field from the set of module row meta fields.
-     *
-     * @return string The key used to identify the primary field from the set of module row meta fields
-     */
-    public function moduleRowMetaKey()
-    {
-        return 'server_name';
     }
 
     /**
@@ -253,30 +175,6 @@ class Virtualmin extends Module
         $fields->setField($template);
 
         return $fields;
-    }
-
-    /**
-     * Returns an array of key values for fields stored for a module, package,
-     * and service under this module, used to substitute those keys with their
-     * actual module, package, or service meta values in related emails.
-     *
-     * @return array A multi-dimensional array of key/value pairs where each key is
-     *  one of 'module', 'package', or 'service' and each value is a numerically indexed
-     *  array of key values that match meta fields under that category.
-     * @see Modules::addModuleRow()
-     * @see Modules::editModuleRow()
-     * @see Modules::addPackage()
-     * @see Modules::editPackage()
-     * @see Modules::addService()
-     * @see Modules::editService()
-     */
-    public function getEmailTags()
-    {
-        return [
-            'module' => ['host_name', 'port'],
-            'package' => ['template', 'plan'],
-            'service' => ['virtualmin_username', 'virtualmin_password', 'virtualmin_domain']
-        ];
     }
 
     /**
@@ -526,42 +424,6 @@ class Virtualmin extends Module
     public function deleteModuleRow($module_row)
     {
 
-    }
-
-    /**
-     * Returns the value used to identify a particular service
-     *
-     * @param stdClass $service A stdClass object representing the service
-     * @return string A value used to identify this service amongst other similar services
-     */
-    public function getServiceName($service)
-    {
-        foreach ($service->fields as $field) {
-            if ($field->key == 'virtualmin_domain') {
-                return $field->value;
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Returns the value used to identify a particular package service which has
-     * not yet been made into a service. This may be used to uniquely identify
-     * an uncreated services of the same package (i.e. in an order form checkout)
-     *
-     * @param stdClass $package A stdClass object representing the selected package
-     * @param array $vars An array of user supplied info to satisfy the request
-     * @return string The value used to identify this package service
-     * @see Module::getServiceName()
-     */
-    public function getPackageServiceName($package, array $vars = null)
-    {
-        if (isset($vars['virtualmin_domain'])) {
-            return $vars['virtualmin_domain'];
-        }
-
-        return null;
     }
 
     /**

@@ -4,6 +4,7 @@
  */
 // Basics
 $lang['Virtualmin.name'] = "VirtualMin";
+$lang['Virtualmin.description'] = "Virtualmin is a domain hosting and website control panel, which gives the ability to create and manage many domains and is available in both open source and commercial versions. It is based on Webmin.";
 $lang['Virtualmin.module_row'] = "Server";
 $lang['Virtualmin.module_row_plural'] = "Servers";
 $lang['Virtualmin.module_group'] = "Server Group";

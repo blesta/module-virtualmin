@@ -1,0 +1,28 @@
+{
+    "version": "1.5.0",
+    "name": "Virtualmin.name",
+    "description": "Virtualmin.description",
+    "authors": [
+        {
+            "name": "Phillips Data, Inc.",
+            "url": "http://www.blesta.com"
+        }
+    ],
+    "package": {
+        "name_key": "virtualmin_domain"
+    },
+    "service": {
+        "name_key": "virtualmin_domain"
+    },
+    "module": {
+        "row": "Virtualmin.module_row",
+        "rows": "Virtualmin.module_row_plural",
+        "row_key": "server_name",
+        "group": "Virtualmin.module_group"
+    },
+    "email_tags": {
+        "module": ["host_name", "port"],
+        "package": ["template", "plan"],
+        "service": ["virtualmin_username", "virtualmin_password", "virtualmin_domain"]
+    }
+}
