@@ -1336,9 +1336,9 @@ class Virtualmin extends Module
      *
      * @return boolean True if the connection is valid, false otherwise
      */
-    public function validateConnection($host_name, $user_name, $password)
+    public function validateConnection($password, $host_name, $user_name, $port, $use_ssl)
     {
-        $response = $this->apiCall($host_name, $user_name, $password, 'list-plans', []);
+        $response = $this->apiCall($host_name, $user_name, $port, $password, $use_ssl, 'list-plans', []);
 
         if (isset($response->status) && $response->status === 'success') {
             return true;
@@ -1572,6 +1572,16 @@ class Virtualmin extends Module
                     'rule' => 'isEmpty',
                     'negate' => true,
                     'message' => Language::_('Virtualmin.!error.password_valid', true)
+                ],
+                'valid_connection' => [
+                    'rule' => [
+                        [$this, 'validateConnection'],
+                        $vars['host_name'],
+                        $vars['user_name'],
+                        $vars['port'],
+                        isset($vars['use_ssl']) ? $vars['use_ssl'] : false
+                    ],
+                    'message' => Language::_('Virtualmin.!error.password_valid_connection', true)
                 ]
             ]
         ];
