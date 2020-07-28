@@ -1341,8 +1341,12 @@ class Virtualmin extends Module
         $response = $this->apiCall($host_name, $user_name, $port, $password, $use_ssl, 'list-plans', []);
 
         if (isset($response->status) && $response->status === 'success') {
+            $this->log($host_name . '|list-plans', serialize($response), 'output', true);
+
             return true;
         }
+
+        $this->log($host_name . '|list-plans', serialize($response), 'output', false);
 
         return false;
     }
