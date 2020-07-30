@@ -101,6 +101,7 @@ $lang['Virtualmin.!error.host_name_valid'] = "The Hostname appears to be invalid
 $lang['Virtualmin.!error.user_name_valid'] = "The User Name appears to be invalid.";
 $lang['Virtualmin.!error.port_valid'] = "The Port appears to be invalid.";
 $lang['Virtualmin.!error.password_valid'] = "The Password appears to be invalid.";
+$lang['Virtualmin.!error.password_valid_connection'] = "A connection to the server could not be established. Please check to ensure that the Hostname, User Name, Password, and Port are correct.";
 $lang['Virtualmin.!error.account_limit_valid'] = "Please enter a valid account limit.";
 $lang['Virtualmin.!error.meta[plan].empty'] = "A VirtualMin Plan is required.";
 $lang['Virtualmin.!error.meta[template].empty'] = "A VirtualMin Template is required.";
