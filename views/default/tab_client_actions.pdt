@@ -20,7 +20,7 @@
 			</div>
 		</div>
 		<button class="btn btn-default pull-right">
-			<i class="fa fa-edit"></i> <?php $this->_("Virtualmin.tab_client_actions.field_password_submit");?>
+			<i class="fas fa-edit"></i> <?php $this->_("Virtualmin.tab_client_actions.field_password_submit");?>
 		</button>
 		<?php
 		$this->Form->end();
