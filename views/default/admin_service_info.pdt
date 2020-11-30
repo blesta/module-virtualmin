@@ -1,6 +1,6 @@
 	<table class="table">
 		<tr class="heading_row">
-			<td class="fixed_small center border_none"><span class="paymnt_arrow"></span></td>
+			<td class="fixed_small center border_none"><i class="fas fa-share fa-flip-vertical"></i></td>
 			<td class="border_left"><?php $this->_("Virtualmin.service_info.username");?></td>
 			<td><?php $this->_("Virtualmin.service_info.password");?></td>
 			<td><?php $this->_("Virtualmin.service_info.server");?></td>
