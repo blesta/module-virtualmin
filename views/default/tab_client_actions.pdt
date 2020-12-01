@@ -5,7 +5,7 @@
 		<?php
 		$this->Form->create($this->base_uri . "services/manage/" . $this->Html->ifSet($service_id) . "/tabClientActions/");
 		?>
-		<div class="col-md-12">
+		<div class="w-100">
 			<div class="form-group">
 				<?php
 				$this->Form->label($this->_("Virtualmin.tab_client_actions.field_virtualmin_password", true), "virtualmin_password");
@@ -19,7 +19,7 @@
 				?>
 			</div>
 		</div>
-		<button class="btn btn-default pull-right">
+		<button class="btn btn-light float-right">
 			<i class="fas fa-edit"></i> <?php $this->_("Virtualmin.tab_client_actions.field_password_submit");?>
 		</button>
 		<?php
