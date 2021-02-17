@@ -156,7 +156,7 @@ class Virtualmin extends Module
             $fields->fieldSelect(
                 'meta[plan]',
                 $plans,
-                $this->Html->ifSet($vars->meta['plan']),
+                (isset($vars->meta['plan']) ? $vars->meta['plan'] : null),
                 ['id' => 'virtualmin_plan']
             )
         );
@@ -168,7 +168,7 @@ class Virtualmin extends Module
             $fields->fieldSelect(
                 'meta[template]',
                 $templates,
-                $this->Html->ifSet($vars->meta['template']),
+                (isset($vars->meta['template']) ? $vars->meta['template'] : null),
                 ['id' => 'virtualmin_template']
             )
         );
@@ -446,7 +446,7 @@ class Virtualmin extends Module
         $domain->attach(
             $fields->fieldText(
                 'virtualmin_domain',
-                $this->Html->ifSet($vars->virtualmin_domain),
+                (isset($vars->virtualmin_domain) ? $vars->virtualmin_domain : null),
                 ['id' => 'virtualmin_domain']
             )
         );
@@ -459,7 +459,7 @@ class Virtualmin extends Module
         $username->attach(
             $fields->fieldText(
                 'virtualmin_username',
-                $this->Html->ifSet($vars->virtualmin_username),
+                (isset($vars->virtualmin_username) ? $vars->virtualmin_username : null),
                 ['id' => 'virtualmin_username']
             )
         );
@@ -475,7 +475,7 @@ class Virtualmin extends Module
         $password->attach(
             $fields->fieldPassword(
                 'virtualmin_password',
-                ['id' => 'virtualmin_password', 'value' => $this->Html->ifSet($vars->virtualmin_password)]
+                ['id' => 'virtualmin_password', 'value' => (isset($vars->virtualmin_password) ? $vars->virtualmin_password : null)]
             )
         );
         // Add tooltip
@@ -493,7 +493,7 @@ class Virtualmin extends Module
         $confirm_password->attach(
             $fields->fieldPassword(
                 'virtualmin_confirm_password',
-                ['id' => 'virtualmin_confirm_password', 'value' => $this->Html->ifSet($vars->virtualmin_password)]
+                ['id' => 'virtualmin_confirm_password', 'value' => (isset($vars->virtualmin_password) ? $vars->virtualmin_password : null)]
             )
         );
         // Add tooltip
@@ -555,7 +555,7 @@ class Virtualmin extends Module
         $domain->attach(
             $fields->fieldText(
                 'virtualmin_domain',
-                $this->Html->ifSet($vars->virtualmin_domain),
+                (isset($vars->virtualmin_domain) ? $vars->virtualmin_domain : null),
                 ['id' => 'virtualmin_domain']
             )
         );
@@ -568,7 +568,7 @@ class Virtualmin extends Module
         $username->attach(
             $fields->fieldText(
                 'virtualmin_username',
-                $this->Html->ifSet($vars->virtualmin_username),
+                (isset($vars->virtualmin_username) ? $vars->virtualmin_username : null),
                 ['id' => 'virtualmin_username']
             )
         );
@@ -581,7 +581,7 @@ class Virtualmin extends Module
         $password->attach(
             $fields->fieldPassword(
                 'virtualmin_password',
-                ['id' => 'virtualmin_password', 'value' => $this->Html->ifSet($vars->virtualmin_password)]
+                ['id' => 'virtualmin_password', 'value' => (isset($vars->virtualmin_password) ? $vars->virtualmin_password : null)]
             )
         );
         // Set the label as a field
@@ -1292,8 +1292,8 @@ class Virtualmin extends Module
         if (!empty($post['virtualmin_password']) && !empty($post['virtualmin_confirm_password'])) {
             Loader::loadModels($this, ['Services']);
             $data = [
-                'virtualmin_password' => $this->Html->ifSet($post['virtualmin_password']),
-                'virtualmin_confirm_password' => $this->Html->ifSet($post['virtualmin_confirm_password'])
+                'virtualmin_password' => (isset($post['virtualmin_password']) ? $post['virtualmin_password'] : null),
+                'virtualmin_confirm_password' => (isset($post['virtualmin_confirm_password']) ? $post['virtualmin_confirm_password'] : null)
             ];
             $this->Services->edit($service->id, $data);
 
