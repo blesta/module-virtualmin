@@ -11,23 +11,23 @@
 			<tbody>
 				<tr>
 					<td><?php $this->_("Virtualmin.tab_stats.info.disk_used");?></td>
-					<td><?php $this->Html->_($stats["disk_used"]);?>/<?php $this->Html->_($stats["disk_limit"]);?></td>
+					<td><?php (echo isset($stats["disk_used"]) ? $this->Html->safe($stats["disk_used"]) : null);?>/<?php (echo isset($stats["disk_limit"]) ? $this->Html->safe($stats["disk_limit"]) : null);?></td>
 				</tr>
 				<tr>
 					<td><?php $this->_("Virtualmin.tab_stats.info.databases_size");?></td>
-					<td><?php $this->Html->_($stats["databases_size"]);?></td>
+					<td><?php (echo isset($stats["databases_size"]) ? $this->Html->safe($stats["databases_size"]) : null);?></td>
 				</tr>
 				<tr>
 					<td><?php $this->_("Virtualmin.tab_stats.info.databases_count");?></td>
-					<td><?php $this->Html->_($stats["databases_count"]);?></td>
+					<td><?php (echo isset($stats["databases_count"]) ? $this->Html->safe($stats["databases_count"]) : null);?></td>
 				</tr>
 				<tr>
 					<td><?php $this->_("Virtualmin.tab_stats.info.maximum_databases");?></td>
-					<td><?php $this->Html->_($stats["maximum_databases"]);?></td>
+					<td><?php (echo isset($stats["maximum_databases"]) ? $this->Html->safe($stats["maximum_databases"]) : null);?></td>
 				</tr>
 				<tr>
 					<td><?php $this->_("Virtualmin.tab_stats.info.maximum_mailboxes");?></td>
-					<td><?php $this->Html->_($stats["maximum_mailboxes"]);?></td>
+					<td><?php (echo isset($stats["maximum_mailboxes"]) ? $this->Html->safe($stats["maximum_mailboxes"]) : null);?></td>
 				</tr>
 			</tbody>
 		</table>

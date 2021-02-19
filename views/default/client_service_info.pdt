@@ -12,16 +12,16 @@
 			<tbody>
 				<tr>
 					<td></td>
-					<td><?php $this->Html->_($service_fields->virtualmin_username);?></td>
-					<td><?php $this->Html->_($service_fields->virtualmin_password);?></td>
-					<td><?php $this->Html->_($module_row->meta->host_name);?></td>
+					<td><?php (echo isset($service_fields->virtualmin_username) ? $this->Html->safe($service_fields->virtualmin_username) : null);?></td>
+					<td><?php (echo isset($service_fields->virtualmin_password) ? $this->Html->safe($service_fields->virtualmin_password) : null);?></td>
+					<td><?php (echo isset($module_row->meta->host_name) ? $this->Html->safe($module_row->meta->host_name) : null);?></td>
 					<td>
 						<?php
 				$this->Form->create($this->Html->safe("https://" . (isset($module_row->meta->host_name) ? $module_row->meta->host_name : null) . ":".(isset($module_row->meta->port) ? $module_row->meta->port : null)), array('target' => "_blank"));
 						$this->Form->fieldHidden("user", (isset($service_fields->virtualmin_username) ? $service_fields->virtualmin_username : null));
 						$this->Form->fieldHidden("password", (isset($service_fields->virtualmin_password) ? $service_fields->virtualmin_password : null));
 						?>
-						<a id="virtualmin_login<?php $this->Html->_($service->id);?>" href="#"><?php $this->_("Virtualmin.service_info.option_login");?></a>
+						<a id="virtualmin_login<?php (echo isset($service->id) ? $this->Html->safe($service->id) : null);?>" href="#"><?php $this->_("Virtualmin.service_info.option_login");?></a>
 						<?php
 						$this->Form->end();
 						?>
@@ -32,7 +32,7 @@
 	</div>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			$('#virtualmin_login<?php $this->Html->_($service->id);?>').click(function(e) {
+			$('#virtualmin_login<?php (echo isset($service->id) ? $this->Html->safe($service->id) : null);?>').click(function(e) {
 				e.preventDefault();
 				
 				$(this).closest('form').submit();
