@@ -525,7 +525,7 @@ class Virtualmin extends Module
         $domain->attach(
             $fields->fieldText(
                 'virtualmin_domain',
-                $this->Html->ifSet($vars->virtualmin_domain, $this->Html->ifSet($vars->domain)),
+                (isset($vars->virtualmin_domain) ? $vars->virtualmin_domain : ($vars->domain ?? null)),
                 ['id' => 'virtualmin_domain']
             )
         );
