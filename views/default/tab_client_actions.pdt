@@ -3,7 +3,7 @@
 		<h4><?php $this->_("Virtualmin.tab_client_actions.change_password");?></h4>
 		
 		<?php
-		$this->Form->create($this->base_uri . "services/manage/" . $this->Html->ifSet($service_id) . "/tabClientActions/");
+		$this->Form->create($this->base_uri . "services/manage/" . (isset($service_id) ? $service_id : null) . "/tabClientActions/");
 		?>
 		<div class="w-100">
 			<div class="form-group">

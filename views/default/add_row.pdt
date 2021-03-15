@@ -6,7 +6,7 @@
 		<div class="inner">
 			<?php
 			$this->Form->create();
-			$this->Form->fieldHidden("account_count", $this->Html->ifSet($vars->account_count, 0));
+			$this->Form->fieldHidden("account_count", (isset($vars->account_count) ? $vars->account_count : 0));
 			?>
 			<div class="title_row first">
 				<h3><?php $this->_("Virtualmin.add_row.basic_title");?></h3>
@@ -16,37 +16,37 @@
 					<li>
 						<?php
 						$this->Form->label($this->_("Virtualmin.row_meta.server_name", true), "server_name");
-						$this->Form->fieldText("server_name", $this->Html->ifSet($vars->server_name));
+						$this->Form->fieldText("server_name", (isset($vars->server_name) ? $vars->server_name : null));
 						?>
 					</li>
 					<li>
 						<?php
 						$this->Form->label($this->_("Virtualmin.row_meta.host_name", true), "host_name");
-						$this->Form->fieldText("host_name", $this->Html->ifSet($vars->host_name));
+						$this->Form->fieldText("host_name", (isset($vars->host_name) ? $vars->host_name : null));
 						?>
 					</li>
 					<li>
 						<?php
 						$this->Form->label($this->_("Virtualmin.row_meta.user_name", true), "user_name");
-						$this->Form->fieldText("user_name", $this->Html->ifSet($vars->user_name));
+						$this->Form->fieldText("user_name", (isset($vars->user_name) ? $vars->user_name : null));
 						?>
 					</li>
 					<li>
 						<?php
 						$this->Form->label($this->_("Virtualmin.row_meta.port", true), "port");
-						$this->Form->fieldText("port", $this->Html->ifSet($vars->port));
+						$this->Form->fieldText("port", (isset($vars->port) ? $vars->port : null));
 						?>
 					</li>
 					<li>
 						<?php
-						$this->Form->fieldCheckbox("use_ssl", "true", $this->Html->ifSet($vars->use_ssl, "true") == "true", array('id'=>"use_ssl"));
+						$this->Form->fieldCheckbox("use_ssl", "true", (isset($vars->use_ssl) ? $vars->use_ssl : "true") == "true", array('id'=>"use_ssl"));
 						$this->Form->label($this->_("Virtualmin.row_meta.use_ssl", true), "use_ssl", array('class'=>"inline"));
 						?>
 					</li>
 					<li>
 						<?php
 						$this->Form->label($this->_("Virtualmin.row_meta.password", true), "password");
-						$this->Form->fieldPassword("password", $this->Html->ifSet($vars->password));
+						$this->Form->fieldPassword("password", (isset($vars->password) ? $vars->password : null));
 						?>
 					</li>
 				</ul>
