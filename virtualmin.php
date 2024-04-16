@@ -864,7 +864,7 @@ class Virtualmin extends Module
             // Check for fields that changed
             $delta = [];
             foreach ($vars as $key => $value) {
-                if (!array_key_exists($key, $service_fields) || $vars[$key] != $service_fields->$key) {
+                if (!array_key_exists($key, (array) $service_fields) || $vars[$key] != $service_fields->$key) {
                     $delta[$key] = $value;
                 }
             }
@@ -1105,7 +1105,7 @@ class Virtualmin extends Module
                 [
                     'domain' => $service_fields->virtualmin_domain,
                     'template' => $package_to->meta->template,
-                    'plan' => $package_to->meta->plan,
+                    'apply-plan' => $package_to->meta->plan,
                 ]
             );
 
