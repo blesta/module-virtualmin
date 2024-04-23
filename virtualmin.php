@@ -1105,7 +1105,7 @@ class Virtualmin extends Module
                 [
                     'domain' => $service_fields->virtualmin_domain,
                     'template' => $package_to->meta->template,
-                    'plan' => $package_to->meta->plan,
+                    'apply-plan' => $package_to->meta->plan,
                 ]
             );
 
