@@ -57,6 +57,10 @@ $lang['Virtualmin.row_meta.account_limit'] = "Account Limit";
 // Package fields
 $lang['Virtualmin.package_fields.plan'] = "VirtualMin Plan";
 $lang['Virtualmin.package_fields.template'] = "VirtualMin Template";
+$lang['Virtualmin.package_fields.sub_domains'] = 'Enable Selling Sub-Domains';
+$lang['Virtualmin.package_fields.sub_domains_enable'] = 'Enable';
+$lang['Virtualmin.package_fields.sub_domains_disable'] = 'Disable';
+$lang['Virtualmin.package_fields.domains_list'] = 'Available Domains List';
 
 // Service fields
 $lang['Virtualmin.service_field.domain'] = "Domain";
@@ -91,6 +95,7 @@ $lang['Virtualmin.service_info.option_login'] = "Log in";
 
 
 // Tooltips
+$lang['Virtualmin.package_fields.tooltip.domains_list'] = 'Enter a CSV list of domains that will be available to provision sub-domains for, e.g. "domain1.com,domain2.com,domain3.com"';
 $lang['Virtualmin.service_field.tooltip.username'] = "You may leave the username blank to automatically generate one.";
 $lang['Virtualmin.service_field.tooltip.password'] = "You may leave the password blank to automatically generate one.";
 
@@ -105,6 +110,7 @@ $lang['Virtualmin.!error.password_valid_connection'] = "A connection to the serv
 $lang['Virtualmin.!error.account_limit_valid'] = "Please enter a valid account limit.";
 $lang['Virtualmin.!error.meta[plan].empty'] = "A VirtualMin Plan is required.";
 $lang['Virtualmin.!error.meta[template].empty'] = "A VirtualMin Template is required.";
+$lang['Virtualmin.!error.meta[domains_list].valid'] = 'One or more package domains are invalid.';
 $lang['Virtualmin.!error.api.internal'] = "An internal error occurred, or the server did not respond to the request.";
 $lang['Virtualmin.!error.module_row.missing'] = "An internal error occurred. The module row is unavailable.";
 
