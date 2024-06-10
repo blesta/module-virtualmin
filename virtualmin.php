@@ -521,7 +521,7 @@ class Virtualmin extends Module
         $fields->setField($domain);
 
         // Show a list of available sub-domains, if enabled
-        if (($package->meta->sub_domains ?? null) == 'enable') {
+        if (($package->meta->sub_domains ?? null) == 'enable' && (empty($vars->virtualmin_domain) || !str_contains($vars->virtualmin_domain, '.'))) {
             // Create domain label
             $subdomain = $fields->label(Language::_('Virtualmin.service_field.domain', true), 'virtualmin_domain');
             // Create domain field and attach to domain label
