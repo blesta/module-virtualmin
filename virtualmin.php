@@ -117,6 +117,24 @@ class Virtualmin extends Module
         Loader::loadHelpers($this, ['Html']);
 
         $fields = new ModuleFields();
+        $fields->setHtml("
+			<script type=\"text/javascript\">
+				$(document).ready(function() {
+					// Set whether to show or hide the sub-domains option
+					$('#virtualmin_domains_list').closest('li').hide();
+					if ($('input[name=\"meta[sub_domains]\"]:checked').val() == 'enable') {
+						$('#virtualmin_domains_list').closest('li').show();
+					}
+					$('input[name=\"meta[sub_domains]\"]').change(function() {
+						if ($(this).val() == 'enable') {
+							$('#virtualmin_domains_list').closest('li').show();
+						} else {
+							$('#virtualmin_domains_list').closest('li').hide();
+						}
+					});
+				});
+			</script>
+		");
 
         // Fetch all packages available for the given server or server group
         $module_row = null;
@@ -173,6 +191,55 @@ class Virtualmin extends Module
             )
         );
         $fields->setField($template);
+
+        // Set whether or not to enable sub-domains
+        $sub_domains = $fields->label(
+            Language::_('Virtualmin.package_fields.sub_domains', true),
+            'virtualmin_sub_domains'
+        );
+        $sub_domains_disable = $fields->label(
+            Language::_('Virtualmin.package_fields.sub_domains_disable', true),
+            'virtualmin_sub_domains_disable'
+        );
+        $sub_domains_enable = $fields->label(
+            Language::_('Virtualmin.package_fields.sub_domains_enable', true),
+            'virtualmin_sub_domains_enable'
+        );
+        $sub_domains->attach(
+            $fields->fieldRadio(
+                'meta[sub_domains]',
+                'disable',
+                (isset($vars->meta['sub_domains']) ? $vars->meta['sub_domains'] : 'disable') == 'disable',
+                ['id' => 'virtualmin_sub_domains_disable'],
+                $sub_domains_disable
+            )
+        );
+        $sub_domains->attach(
+            $fields->fieldRadio(
+                'meta[sub_domains]',
+                'enable',
+                (isset($vars->meta['sub_domains']) ? $vars->meta['sub_domains'] : null) == 'enable',
+                ['id' => 'virtualmin_sub_domains_enable'],
+                $sub_domains_enable
+            )
+        );
+        $fields->setField($sub_domains);
+
+        // Set the domains to be used for sub-domains accounts
+        $domains_list = $fields->label(
+            Language::_('Virtualmin.package_fields.domains_list', true),
+            'virtualmin_domains_list'
+        );
+        $domains_list->attach(
+            $fields->fieldText(
+                'meta[domains_list]',
+                (isset($vars->meta['domains_list']) ? $vars->meta['domains_list'] : null),
+                ['id' => 'virtualmin_domains_list']
+            )
+        );
+        $tooltip = $fields->tooltip(Language::_('Virtualmin.package_fields.tooltip.domains_list', true));
+        $domains_list->attach($tooltip);
+        $fields->setField($domains_list);
 
         return $fields;
     }
@@ -453,6 +520,24 @@ class Virtualmin extends Module
         // Set the label as a field
         $fields->setField($domain);
 
+        // Show a list of available sub-domains, if enabled
+        if (($package->meta->sub_domains ?? null) == 'enable' && (empty($vars->virtualmin_domain) || !str_contains($vars->virtualmin_domain, '.'))) {
+            // Create domain label
+            $subdomain = $fields->label(Language::_('Virtualmin.service_field.domain', true), 'virtualmin_domain');
+            // Create domain field and attach to domain label
+            $subdomains = $this->getPackageDomains($package);
+            $subdomain->attach(
+                $fields->fieldSelect(
+                    'virtualmin_subdomain',
+                    $subdomains,
+                    ($vars->virtualmin_subdomain ?? null),
+                    ['id' => 'virtualmin_subdomain', 'class' => 'attachment']
+                )
+            );
+            // Set the label as a field
+            $fields->setField($subdomain);
+        }
+
         // Create username label
         $username = $fields->label(Language::_('Virtualmin.service_field.username', true), 'virtualmin_username');
         // Create username field and attach to username label
@@ -519,16 +604,65 @@ class Virtualmin extends Module
 
         $fields = new ModuleFields();
 
-        // Create domain label
-        $domain = $fields->label(Language::_('Virtualmin.service_field.domain', true), 'virtualmin_domain');
-        // Create domain field and attach to domain label
-        $domain->attach(
-            $fields->fieldText(
-                'virtualmin_domain',
-                (isset($vars->virtualmin_domain) ? $vars->virtualmin_domain : ($vars->domain ?? null)),
-                ['id' => 'virtualmin_domain']
-            )
-        );
+        // Show a list of available sub-domains, if enabled
+        if (($package->meta->sub_domains ?? null) == 'enable') {
+            // Set custom CSS
+            $fields->setHtml('
+                <style>
+                    .generated_fields_div .form-group {
+                        white-space: nowrap;
+                    }
+                    .generated_fields_div .form-group .attachment {
+                        box-sizing: border-box;
+                        width: calc(50% - 2px);
+                        display: inline-block;
+                    }
+                    @media screen and (max-width: 768px) {
+                        .generated_fields_div .form-group .attachment {
+                            width: 100%;
+                            display: block;
+                            margin-top: 7px;
+                        }
+                    }
+                </style>
+            ');
+
+            // Create domain label
+            $domain = $fields->label(Language::_('Virtualmin.service_field.domain', true), 'virtualmin_domain', ['class' => 'd-block']);
+
+            // Create domain field and attach to domain label
+            $domain->attach(
+                $fields->fieldText(
+                    'virtualmin_domain',
+                    ($vars->virtualmin_domain ?? ($vars->domain ?? null)),
+                    ['id' => 'virtualmin_domain', 'class' => 'attachment']
+                )
+            );
+
+            // Create sub-domain field
+            $subdomains = $this->getPackageDomains($package);
+            $domain->attach(
+                $fields->fieldSelect(
+                    'virtualmin_subdomain',
+                    $subdomains,
+                    ($vars->virtualmin_subdomain ?? null),
+                    ['id' => 'virtualmin_subdomain', 'class' => 'attachment']
+                )
+            );
+        } else {
+            // Create domain label
+            $domain = $fields->label(Language::_('Virtualmin.service_field.domain', true), 'virtualmin_domain');
+
+            // Create domain field and attach to domain label
+            $domain->attach(
+                $fields->fieldText(
+                    'virtualmin_domain',
+                    ($vars->virtualmin_domain ?? ($vars->domain ?? null)),
+                    ['id' => 'virtualmin_domain', 'class' => 'w-50 d-inline-block']
+                )
+            );
+        }
+
         // Set the label as a field
         $fields->setField($domain);
 
@@ -676,6 +810,16 @@ class Virtualmin extends Module
             unset($rules['virtualmin_domain']['test']);
         }
 
+        // Build sub-domain, if one has been provided
+        if (!empty($vars['virtualmin_subdomain'])) {
+            $vars['virtualmin_domain'] = $this->formatDomain($vars['virtualmin_domain'] . '.' . $vars['virtualmin_subdomain']);
+            unset($vars['virtualmin_subdomain']);
+
+            $rules['virtualmin_domain']['format']['rule'] = function ($domain) use ($vars) {
+                return $this->validateHostName($vars['virtualmin_domain']);
+            };
+        }
+
         // Set the values that may be empty
         $empty_values = ['virtualmin_username', 'virtualmin_password'];
 
@@ -758,6 +902,14 @@ class Virtualmin extends Module
             // Use client's email address
             if (isset($vars['client_id']) && ($client = $this->Clients->get($vars['client_id'], false))) {
                 $vars['virtualmin_email'] = $client->email;
+            }
+
+            // Build sub-domain, if one has been provided
+            if (($package->meta->sub_domains ?? null) == 'enable' && ($vars['virtualmin_subdomain'] ?? null)) {
+                $vars['virtualmin_domain'] = $this->formatDomain($vars['virtualmin_domain'] . '.' . $vars['virtualmin_subdomain']);
+                unset($vars['virtualmin_subdomain']);
+            } else {
+                $vars['virtualmin_domain'] = $this->formatDomain($vars['virtualmin_domain']);
             }
         }
 
@@ -1536,6 +1688,75 @@ class Virtualmin extends Module
     }
 
     /**
+     * Retrieves all of the available domains for subdomain provisioning for a specific package
+     *
+     * @param stdClass $package A stdClass object representing the selected package
+     * @return mixed A key/value array of available domains
+     */
+    private function getPackageDomains(stdClass $package)
+    {
+        if (!empty($package->meta->domains_list)) {
+            return $this->parseElementsFromCsv($package->meta->domains_list);
+        }
+
+        return [];
+    }
+
+    /**
+     * Validates that the given list of domains if are valid
+     *
+     * @param string $domains The list of domains to validate
+     * @return boolean True if all the domains are valid, false otherwise
+     */
+    public function validatePackageDomains($domains)
+    {
+        $domains = $this->parseElementsFromCsv($domains);
+
+        foreach ($domains as $domain) {
+           if (!$this->validateHostName($domain)) {
+               return false;
+           }
+        }
+
+        return true;
+    }
+
+    /**
+     * Parses out the given elements from a CSV
+     *
+     * @param string $csv The CSV list
+     * @return array An array of elements from the list
+     */
+    private function parseElementsFromCsv($csv)
+    {
+        $items = [];
+
+        foreach (explode(',', $csv) as $item) {
+            $item = strtolower(trim($item));
+
+            // Skip any blank items
+            if (empty($item)) {
+                continue;
+            }
+
+            $items[$item] = $item;
+        }
+
+        return $items;
+    }
+
+    /**
+     * Removes the www. from a domain name
+     *
+     * @param string $domain A domain name
+     * @return string The domain name after the www. has been removed
+     */
+    private function formatDomain($domain)
+    {
+        return strtolower(preg_replace('/^\s*www\./i', '', $domain));
+    }
+
+    /**
      * Builds and returns the rules required to add/edit a module row (e.g. server)
      *
      * @param array $vars An array of key/value data pairs
@@ -1614,6 +1835,12 @@ class Virtualmin extends Module
                     'rule' => 'isEmpty',
                     'negate' => true,
                     'message' => Language::_('Virtualmin.!error.meta[template].empty', true)
+                ]
+            ],
+            'meta[domains_list]' => [
+                'valid' => [
+                    'rule' => [[$this, 'validatePackageDomains']],
+                    'message' => Language::_('Virtualmin.!error.meta[domains_list].valid', true)
                 ]
             ]
         ];
