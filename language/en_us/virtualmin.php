@@ -11,6 +11,8 @@ $lang['Virtualmin.module_group'] = "Server Group";
 $lang['Virtualmin.tab_stats'] = "Statistics";
 $lang['Virtualmin.tab_client_actions'] = "Actions";
 
+$lang['Virtualmin.back_to_manage'] = 'Back';
+
 // Module management
 $lang['Virtualmin.add_module_row'] = "Add Server";
 $lang['Virtualmin.add_module_group'] = "Add Server Group";
