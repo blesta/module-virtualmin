@@ -12,8 +12,35 @@ $link_buttons = [
     ],
 ];
 
+$tabs = [
+    [
+        'name' => $this->_('Virtualmin.manage.tab_rows', true),
+        'current' => true,
+        'attributes' => [
+            'class' => 'rows',
+            'href' => '#tab_rows',
+            'id' => 'rows_tab',
+            'data-bs-toggle' => 'tab',
+            'role' => 'tab'
+        ]
+    ],
+    [
+        'name' => $this->_('Virtualmin.manage.tab_groups', true),
+        'current' => false,
+        'attributes' => [
+            'class' => 'groups',
+            'href' => '#tab_groups',
+            'id' => 'groups_tab',
+            'data-bs-toggle' => 'tab',
+            'role' => 'tab'
+        ]
+    ]
+];
+
 $this->Widget->clear();
 $this->Widget->setLinkButtons($link_buttons);
+$this->Widget->setTabs($tabs);
+$this->Widget->setBodyWrapper(false);
 
 $this->Widget->create(
     $this->_(
@@ -25,7 +52,8 @@ $this->Widget->create(
 );
 ?>
 
-<h6 class="form-section-header"><?php $this->_('Virtualmin.manage.module_rows_title'); ?></h6>
+<div class="tab-content">
+    <div class="tab-pane fade show active" id="tab_rows" role="tabpanel">
   <?php
   $num_rows = count(isset($module->rows) ? $module->rows : []);
   if ($num_rows > 0) { ?>
@@ -88,8 +116,9 @@ $this->Widget->create(
 </div>
                 <?php }
   ?>
+    </div>
 
-<h6 class="form-section-header mt-4"><?php $this->_('Virtualmin.manage.module_groups_title'); ?></h6>
+    <div class="tab-pane fade" id="tab_groups" role="tabpanel">
                 <?php
                 $num_rows = count(isset($module->groups) ? $module->groups : []);
                 if ($num_rows > 0) { ?>
@@ -144,15 +173,10 @@ $this->Widget->create(
     <i class="bi bi-collection" style="font-size: 3rem; opacity: 0.3;"></i>
     <p class="mt-3 mb-0"><?php $this->_('Virtualmin.manage.module_groups_no_results'); ?></p>
 </div>
-                <?php }
+                <?php } ?>
+    </div>
+</div>
+<?php
 
                 $this->Widget->end();
                 ?>
-
-<script type="text/javascript">
-    document.addEventListener('DOMContentLoaded', function() {
-        if (typeof blestaModalConfirm === 'function') {
-            blestaModalConfirm('.modal-confirm-delete');
-        }
-    });
-</script>
