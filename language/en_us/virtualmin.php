@@ -11,11 +11,15 @@ $lang['Virtualmin.module_group'] = "Server Group";
 $lang['Virtualmin.tab_stats'] = "Statistics";
 $lang['Virtualmin.tab_client_actions'] = "Actions";
 
+$lang['Virtualmin.back_to_manage'] = 'Back';
+
 // Module management
 $lang['Virtualmin.add_module_row'] = "Add Server";
 $lang['Virtualmin.add_module_group'] = "Add Server Group";
 $lang['Virtualmin.manage.module_rows_title'] = "Servers";
 $lang['Virtualmin.manage.module_groups_title'] = "Server Groups";
+$lang['Virtualmin.manage.tab_rows'] = 'Servers';
+$lang['Virtualmin.manage.tab_groups'] = 'Server Groups';
 $lang['Virtualmin.manage.module_rows_heading.name'] = "Server Label";
 $lang['Virtualmin.manage.module_rows_heading.hostname'] = "Hostname";
 $lang['Virtualmin.manage.module_rows_heading.port'] = "Port";

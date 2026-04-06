@@ -1,28 +1,40 @@
-	
-	<div id="change_password">
-		<h4><?php $this->_("Virtualmin.tab_client_actions.change_password");?></h4>
-		
-		<?php
-		$this->Form->create($this->base_uri . "services/manage/" . (isset($service_id) ? $service_id : null) . "/tabClientActions/");
-		?>
-		<div class="w-100">
-			<div class="form-group">
-				<?php
-				$this->Form->label($this->_("Virtualmin.tab_client_actions.field_virtualmin_password", true), "virtualmin_password");
-				$this->Form->fieldPassword("virtualmin_password", array('id' => "virtualmin_password", 'class'=>"form-control", 'placeholder'=>$this->_("Virtualmin.tab_client_actions.field_virtualmin_password", true)));
-				?>
-			</div>
+    
+    <div id="change_password">
+        <h4><?php $this->_('Virtualmin.tab_client_actions.change_password'); ?></h4>
+        
+        <?php $this->Form->create(
+            $this->base_uri . 'services/manage/' . ($service_id ?? null) . '/tabClientActions/',
+        ); ?>
+        <div class="w-100">
             <div class="form-group">
-				<?php
-				$this->Form->label($this->_("Virtualmin.tab_client_actions.field_virtualmin_confirm_password", true), "virtualmin_password");
-				$this->Form->fieldPassword("virtualmin_confirm_password", array('id' => "virtualmin_confirm_password", 'class'=>"form-control", 'placeholder'=>$this->_("Virtualmin.tab_client_actions.field_virtualmin_confirm_password", true)));
-				?>
-			</div>
-		</div>
-		<button class="btn btn-light float-right">
-			<i class="fas fa-edit"></i> <?php $this->_("Virtualmin.tab_client_actions.field_password_submit");?>
-		</button>
-		<?php
-		$this->Form->end();
-		?>
-	</div>
+                <?php
+                $this->Form->label(
+                    $this->_('Virtualmin.tab_client_actions.field_virtualmin_password', true),
+                    'virtualmin_password',
+                );
+                $this->Form->fieldPassword('virtualmin_password', [
+                'id' => 'virtualmin_password',
+                'class' => 'form-control',
+                'placeholder' => $this->_('Virtualmin.tab_client_actions.field_virtualmin_password', true),
+                ]);
+                ?>
+            </div>
+            <div class="form-group">
+                <?php
+                $this->Form->label(
+                    $this->_('Virtualmin.tab_client_actions.field_virtualmin_confirm_password', true),
+                    'virtualmin_password',
+                );
+                $this->Form->fieldPassword('virtualmin_confirm_password', [
+                'id' => 'virtualmin_confirm_password',
+                'class' => 'form-control',
+                'placeholder' => $this->_('Virtualmin.tab_client_actions.field_virtualmin_confirm_password', true),
+                ]);
+                ?>
+            </div>
+        </div>
+        <button class="btn btn-light float-right">
+            <i class="fas fa-edit"></i> <?php $this->_('Virtualmin.tab_client_actions.field_password_submit'); ?>
+        </button>
+        <?php $this->Form->end(); ?>
+    </div>

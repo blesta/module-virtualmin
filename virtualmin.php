@@ -1,4 +1,5 @@
 <?php
+
 use Blesta\Core\Util\Validate\Server;
 
 /**
@@ -174,7 +175,7 @@ class Virtualmin extends Module
             $fields->fieldSelect(
                 'meta[plan]',
                 $plans,
-                (isset($vars->meta['plan']) ? $vars->meta['plan'] : null),
+                ($vars->meta['plan'] ?? null),
                 ['id' => 'virtualmin_plan']
             )
         );
@@ -186,7 +187,7 @@ class Virtualmin extends Module
             $fields->fieldSelect(
                 'meta[template]',
                 $templates,
-                (isset($vars->meta['template']) ? $vars->meta['template'] : null),
+                ($vars->meta['template'] ?? null),
                 ['id' => 'virtualmin_template']
             )
         );
@@ -209,7 +210,7 @@ class Virtualmin extends Module
             $fields->fieldRadio(
                 'meta[sub_domains]',
                 'disable',
-                (isset($vars->meta['sub_domains']) ? $vars->meta['sub_domains'] : 'disable') == 'disable',
+                ($vars->meta['sub_domains'] ?? 'disable') == 'disable',
                 ['id' => 'virtualmin_sub_domains_disable'],
                 $sub_domains_disable
             )
@@ -218,7 +219,7 @@ class Virtualmin extends Module
             $fields->fieldRadio(
                 'meta[sub_domains]',
                 'enable',
-                (isset($vars->meta['sub_domains']) ? $vars->meta['sub_domains'] : null) == 'enable',
+                ($vars->meta['sub_domains'] ?? null) == 'enable',
                 ['id' => 'virtualmin_sub_domains_enable'],
                 $sub_domains_enable
             )
@@ -233,7 +234,7 @@ class Virtualmin extends Module
         $domains_list->attach(
             $fields->fieldText(
                 'meta[domains_list]',
-                (isset($vars->meta['domains_list']) ? $vars->meta['domains_list'] : null),
+                ($vars->meta['domains_list'] ?? null),
                 ['id' => 'virtualmin_domains_list']
             )
         );
@@ -360,6 +361,14 @@ class Virtualmin extends Module
             }
         }
 
+        // Fetch module
+        Loader::loadModels($this, ['ModuleManager']);
+        $module = $this->ModuleManager->getByClass(
+            \Illuminate\Support\Str::snake(get_class($this)),
+            Configure::get('Blesta.company_id')
+        );
+        $module = ($module[0] ?? []);
+        $this->view->set('module', (object) $module);
         $this->view->set('vars', (object) $vars);
         return $this->view->fetch();
     }
@@ -391,6 +400,14 @@ class Virtualmin extends Module
             }
         }
 
+        // Fetch module
+        Loader::loadModels($this, ['ModuleManager']);
+        $module = $this->ModuleManager->getByClass(
+            \Illuminate\Support\Str::snake(get_class($this)),
+            Configure::get('Blesta.company_id')
+        );
+        $module = ($module[0] ?? []);
+        $this->view->set('module', (object) $module);
         $this->view->set('vars', (object) $vars);
         return $this->view->fetch();
     }
@@ -490,7 +507,6 @@ class Virtualmin extends Module
      */
     public function deleteModuleRow($module_row)
     {
-
     }
 
     /**
@@ -513,7 +529,7 @@ class Virtualmin extends Module
         $domain->attach(
             $fields->fieldText(
                 'virtualmin_domain',
-                (isset($vars->virtualmin_domain) ? $vars->virtualmin_domain : null),
+                ($vars->virtualmin_domain ?? null),
                 ['id' => 'virtualmin_domain']
             )
         );
@@ -544,7 +560,7 @@ class Virtualmin extends Module
         $username->attach(
             $fields->fieldText(
                 'virtualmin_username',
-                (isset($vars->virtualmin_username) ? $vars->virtualmin_username : null),
+                ($vars->virtualmin_username ?? null),
                 ['id' => 'virtualmin_username']
             )
         );
@@ -560,7 +576,7 @@ class Virtualmin extends Module
         $password->attach(
             $fields->fieldPassword(
                 'virtualmin_password',
-                ['id' => 'virtualmin_password', 'value' => (isset($vars->virtualmin_password) ? $vars->virtualmin_password : null)]
+                ['id' => 'virtualmin_password', 'value' => ($vars->virtualmin_password ?? null)]
             )
         );
         // Add tooltip
@@ -578,7 +594,7 @@ class Virtualmin extends Module
         $confirm_password->attach(
             $fields->fieldPassword(
                 'virtualmin_confirm_password',
-                ['id' => 'virtualmin_confirm_password', 'value' => (isset($vars->virtualmin_password) ? $vars->virtualmin_password : null)]
+                ['id' => 'virtualmin_confirm_password', 'value' => ($vars->virtualmin_password ?? null)]
             )
         );
         // Add tooltip
@@ -689,7 +705,7 @@ class Virtualmin extends Module
         $domain->attach(
             $fields->fieldText(
                 'virtualmin_domain',
-                (isset($vars->virtualmin_domain) ? $vars->virtualmin_domain : null),
+                ($vars->virtualmin_domain ?? null),
                 ['id' => 'virtualmin_domain']
             )
         );
@@ -702,7 +718,7 @@ class Virtualmin extends Module
         $username->attach(
             $fields->fieldText(
                 'virtualmin_username',
-                (isset($vars->virtualmin_username) ? $vars->virtualmin_username : null),
+                ($vars->virtualmin_username ?? null),
                 ['id' => 'virtualmin_username']
             )
         );
@@ -715,7 +731,7 @@ class Virtualmin extends Module
         $password->attach(
             $fields->fieldPassword(
                 'virtualmin_password',
-                ['id' => 'virtualmin_password', 'value' => (isset($vars->virtualmin_password) ? $vars->virtualmin_password : null)]
+                ['id' => 'virtualmin_password', 'value' => ($vars->virtualmin_password ?? null)]
             )
         );
         // Set the label as a field
@@ -798,9 +814,7 @@ class Virtualmin extends Module
             'virtualmin_confirm_password' => [
                 'matches' => [
                     'if_set' => true,
-                    'rule' => ['compares', '==', (isset($vars['virtualmin_password'])
-                            ? $vars['virtualmin_password']
-                            : '')],
+                    'rule' => ['compares', '==', ($vars['virtualmin_password'] ?? '')],
                     'message' => Language::_('Virtualmin.!error.virtualmin_password.matches', true)
                 ]
             ]
@@ -940,7 +954,7 @@ class Virtualmin extends Module
 
             if (isset($response->status) && isset($response->error) && $response->status !== 'success') {
                 $this->log($row->meta->host_name . '|create-domain', serialize($response), 'output');
-                $this->Input->setErrors(array(array($response->error)));
+                $this->Input->setErrors([[$response->error]]);
             }
 
             if ($this->Input->errors()) {
@@ -1050,7 +1064,7 @@ class Virtualmin extends Module
 
             if (isset($response->status) && isset($response->error) && $response->status !== 'success') {
                 $this->log($row->meta->host_name . '|modify-domain', serialize($response), 'output');
-                $this->Input->setErrors(array(array($response->error)));
+                $this->Input->setErrors([[$response->error]]);
             } else {
                 $this->log($row->meta->host_name . '|modify-domain', serialize($response), 'output', true);
             }
@@ -1117,7 +1131,7 @@ class Virtualmin extends Module
             );
             if (isset($response->status) && isset($response->error) && $response->status !== 'success') {
                 $this->log($row->meta->host_name . '|disable-domain', serialize($response), 'output');
-                $this->Input->setErrors(array(array($response->error)));
+                $this->Input->setErrors([[$response->error]]);
             } else {
                 $this->log($row->meta->host_name . '|disable-domain', serialize($response), 'output', true);
             }
@@ -1162,7 +1176,7 @@ class Virtualmin extends Module
 
             if (isset($response->status) && isset($response->error) && $response->status !== 'success') {
                 $this->log($row->meta->host_name . '|enable-domain', serialize($response), 'output');
-                $this->Input->setErrors(array(array($response->error)));
+                $this->Input->setErrors([[$response->error]]);
             } else {
                 $this->log($row->meta->host_name . '|enable-domain', serialize($response), 'output', true);
             }
@@ -1209,7 +1223,7 @@ class Virtualmin extends Module
 
             if (isset($response->status) && isset($response->error) && $response->status !== 'success') {
                 $this->log($row->meta->host_name . '|delete-domain', serialize($response), 'output');
-                $this->Input->setErrors(array(array($response->error)));
+                $this->Input->setErrors([[$response->error]]);
             } else {
                 $this->log($row->meta->host_name . '|delete-domain', serialize($response), 'output', true);
             }
@@ -1263,7 +1277,7 @@ class Virtualmin extends Module
 
             if (isset($response->status) && isset($response->error) && $response->status !== 'success') {
                 $this->log($row->meta->host_name . '|modify-domain', serialize($response), 'output');
-                $this->Input->setErrors(array(array($response->error)));
+                $this->Input->setErrors([[$response->error]]);
             } else {
                 $this->log($row->meta->host_name . '|modify-domain', serialize($response), 'output', true);
             }
@@ -1408,12 +1422,13 @@ class Virtualmin extends Module
         ];
 
         if (isset($response->data) && isset($response->status) && $response->status === 'success') {
-            $stats['disk_used'] = $response->data[0]->values->server_quota_used[0];
-            $stats['disk_limit'] = $response->data[0]->values->server_quota[0];
-            $stats['maximum_databases'] = $response->data[0]->values->maximum_databases[0];
-            $stats['maximum_mailboxes'] = $response->data[0]->values->maximum_mailboxes[0];
-            $stats['databases_size'] = $response->data[0]->values->databases_size[0];
-            $stats['databases_count'] = $response->data[0]->values->databases_count[0];
+            $values = $response->data[0]->values ?? null;
+            $stats['disk_used'] = $values->server_quota_used[0] ?? '';
+            $stats['disk_limit'] = $values->server_quota[0] ?? '';
+            $stats['maximum_databases'] = $values->maximum_databases[0] ?? '';
+            $stats['maximum_mailboxes'] = $values->maximum_mailboxes[0] ?? '';
+            $stats['databases_size'] = $values->databases_size[0] ?? '';
+            $stats['databases_count'] = $values->databases_count[0] ?? '';
         }
 
         $this->log($row->meta->host_name . '|list-domains', serialize($response), 'input', true);
@@ -1444,8 +1459,8 @@ class Virtualmin extends Module
         if (!empty($post['virtualmin_password']) && !empty($post['virtualmin_confirm_password'])) {
             Loader::loadModels($this, ['Services']);
             $data = [
-                'virtualmin_password' => (isset($post['virtualmin_password']) ? $post['virtualmin_password'] : null),
-                'virtualmin_confirm_password' => (isset($post['virtualmin_confirm_password']) ? $post['virtualmin_confirm_password'] : null)
+                'virtualmin_password' => ($post['virtualmin_password'] ?? null),
+                'virtualmin_confirm_password' => ($post['virtualmin_confirm_password'] ?? null)
             ];
             $this->Services->edit($service->id, $data);
 
@@ -1462,9 +1477,7 @@ class Virtualmin extends Module
 
         $this->view->set('service_fields', $service_fields);
         $this->view->set('service_id', $service->id);
-        $this->view->set('vars', (isset($vars)
-                ? $vars
-                : new stdClass()));
+        $this->view->set('vars', ($vars ?? new stdClass()));
 
         $this->view->setDefaultView('components' . DS . 'modules' . DS . 'virtualmin' . DS);
         return $this->view->fetch();
@@ -1562,20 +1575,12 @@ class Virtualmin extends Module
     private function getFieldsFromInput(array $vars, $package)
     {
         $fields = [
-            'domain' => isset($vars['virtualmin_domain'])
-                ? $vars['virtualmin_domain']
-                : null,
-            'user' => isset($vars['virtualmin_username'])
-                ? $vars['virtualmin_username']
-                : null,
-            'pass' => isset($vars['virtualmin_password'])
-                ? $vars['virtualmin_password']
-                : null,
+            'domain' => $vars['virtualmin_domain'] ?? null,
+            'user' => $vars['virtualmin_username'] ?? null,
+            'pass' => $vars['virtualmin_password'] ?? null,
             'plan' => $package->meta->plan,
             'features-from-plan' => '',
-            'email' => isset($vars['virtualmin_email'])
-                ? $vars['virtualmin_email']
-                : null
+            'email' => $vars['virtualmin_email'] ?? null
         ];
 
         return $fields;
@@ -1713,9 +1718,9 @@ class Virtualmin extends Module
         $domains = $this->parseElementsFromCsv($domains);
 
         foreach ($domains as $domain) {
-           if (!$this->validateHostName($domain)) {
-               return false;
-           }
+            if (!$this->validateHostName($domain)) {
+                return false;
+            }
         }
 
         return true;
@@ -1804,7 +1809,7 @@ class Virtualmin extends Module
                         $vars['host_name'],
                         $vars['user_name'],
                         $vars['port'],
-                        isset($vars['use_ssl']) ? $vars['use_ssl'] : false
+                        $vars['use_ssl'] ?? false
                     ],
                     'message' => Language::_('Virtualmin.!error.password_valid_connection', true)
                 ]

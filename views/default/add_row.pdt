@@ -1,63 +1,89 @@
-		<?php
-		$this->Widget->clear();
-		$this->Widget->setLinkButtons(array());
-		$this->Widget->create($this->_("Virtualmin.add_row.box_title", true));
-		?>
-		<div class="inner">
-			<?php
-			$this->Form->create();
-			$this->Form->fieldHidden("account_count", (isset($vars->account_count) ? $vars->account_count : 0));
-			?>
-			<div class="title_row first">
-				<h3><?php $this->_("Virtualmin.add_row.basic_title");?></h3>
-			</div>
-			<div class="pad">
-				<ul>
-					<li>
-						<?php
-						$this->Form->label($this->_("Virtualmin.row_meta.server_name", true), "server_name");
-						$this->Form->fieldText("server_name", (isset($vars->server_name) ? $vars->server_name : null));
-						?>
-					</li>
-					<li>
-						<?php
-						$this->Form->label($this->_("Virtualmin.row_meta.host_name", true), "host_name");
-						$this->Form->fieldText("host_name", (isset($vars->host_name) ? $vars->host_name : null));
-						?>
-					</li>
-					<li>
-						<?php
-						$this->Form->label($this->_("Virtualmin.row_meta.user_name", true), "user_name");
-						$this->Form->fieldText("user_name", (isset($vars->user_name) ? $vars->user_name : null));
-						?>
-					</li>
-					<li>
-						<?php
-						$this->Form->label($this->_("Virtualmin.row_meta.port", true), "port");
-						$this->Form->fieldText("port", (isset($vars->port) ? $vars->port : null));
-						?>
-					</li>
-					<li>
-						<?php
-						$this->Form->fieldCheckbox("use_ssl", "true", (isset($vars->use_ssl) ? $vars->use_ssl : "true") == "true", array('id'=>"use_ssl"));
-						$this->Form->label($this->_("Virtualmin.row_meta.use_ssl", true), "use_ssl", array('class'=>"inline"));
-						?>
-					</li>
-					<li>
-						<?php
-						$this->Form->label($this->_("Virtualmin.row_meta.password", true), "password");
-						$this->Form->fieldPassword("password", (isset($vars->password) ? $vars->password : null));
-						?>
-					</li>
-				</ul>
-			</div>
+<?php /** @var View $this **/ ?>
 
+<?php
+$this->Form->create(null, ['class' => 'disable-on-submit']);
 
-			<div class="button_row"><a class="btn btn-primary float-right submit" href="#"><?php $this->_("Virtualmin.add_row.add_btn");?></a></div>
-			<?php
-			$this->Form->end();
-			?>
-		</div>
-		<?php
-		$this->Widget->end();
-		?>
+$this->Widget->clear();
+$this->Widget->setLinkButtons([
+    [
+        'name' => $this->_('Virtualmin.back_to_manage', true),
+        'icon' => 'bi bi-arrow-left me-1',
+        'attributes' => ['href' => $this->base_uri . 'settings/company/modules/manage/' . $module->id],
+    ],
+]);
+$this->Widget->create($this->_('Virtualmin.add_row.box_title', true));
+
+$this->Form->fieldHidden('account_count', $vars->account_count ?? 0);
+?>
+
+<h6 class="form-section-header"><?php $this->_('Virtualmin.add_row.basic_title'); ?></h6>
+
+<div class="mb-3">
+    <label for="server_name" class="form-label">
+        <?php $this->_('Virtualmin.row_meta.server_name'); ?>
+    </label>
+    <?php $this->Form->fieldText('server_name', $vars->server_name ?? null, [
+        'id' => 'server_name',
+        'class' => 'form-control',
+    ]); ?>
+</div>
+
+<div class="mb-3">
+    <label for="host_name" class="form-label">
+        <?php $this->_('Virtualmin.row_meta.host_name'); ?>
+    </label>
+    <?php $this->Form->fieldText('host_name', $vars->host_name ?? null, [
+        'id' => 'host_name',
+        'class' => 'form-control',
+    ]); ?>
+</div>
+
+<div class="mb-3">
+    <label for="user_name" class="form-label">
+        <?php $this->_('Virtualmin.row_meta.user_name'); ?>
+    </label>
+    <?php $this->Form->fieldText('user_name', $vars->user_name ?? null, [
+        'id' => 'user_name',
+        'class' => 'form-control',
+    ]); ?>
+</div>
+
+<div class="mb-3">
+    <label for="port" class="form-label">
+        <?php $this->_('Virtualmin.row_meta.port'); ?>
+    </label>
+    <?php $this->Form->fieldText('port', $vars->port ?? null, ['id' => 'port', 'class' => 'form-control']); ?>
+</div>
+
+<div class="mb-3">
+    <div class="form-check">
+        <?php $this->Form->fieldCheckbox('use_ssl', 'true', ($vars->use_ssl ?? 'true') == 'true', [
+            'id' => 'use_ssl',
+            'class' => 'form-check-input',
+        ]); ?>
+        <label for="use_ssl" class="form-check-label">
+            <?php $this->_('Virtualmin.row_meta.use_ssl'); ?>
+        </label>
+    </div>
+</div>
+
+<div class="mb-3">
+    <label for="password" class="form-label">
+        <?php $this->_('Virtualmin.row_meta.password'); ?>
+    </label>
+    <?php $this->Form->fieldPassword('password', [
+        'id' => 'password',
+        'class' => 'form-control',
+        'value' => $vars->password ?? null,
+    ]); ?>
+</div>
+
+<?php $this->Widget->footer(); ?>
+<div class="d-flex justify-content-end">
+    <a class="btn btn-primary submit" href="#"><?php $this->_('Virtualmin.add_row.add_btn'); ?></a>
+</div>
+
+<?php
+$this->Widget->end();
+$this->Form->end();
+?>
