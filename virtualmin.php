@@ -1422,12 +1422,13 @@ class Virtualmin extends Module
         ];
 
         if (isset($response->data) && isset($response->status) && $response->status === 'success') {
-            $stats['disk_used'] = $response->data[0]->values->server_quota_used[0];
-            $stats['disk_limit'] = $response->data[0]->values->server_quota[0];
-            $stats['maximum_databases'] = $response->data[0]->values->maximum_databases[0];
-            $stats['maximum_mailboxes'] = $response->data[0]->values->maximum_mailboxes[0];
-            $stats['databases_size'] = $response->data[0]->values->databases_size[0];
-            $stats['databases_count'] = $response->data[0]->values->databases_count[0];
+            $values = $response->data[0]->values ?? null;
+            $stats['disk_used'] = $values->server_quota_used[0] ?? '';
+            $stats['disk_limit'] = $values->server_quota[0] ?? '';
+            $stats['maximum_databases'] = $values->maximum_databases[0] ?? '';
+            $stats['maximum_mailboxes'] = $values->maximum_mailboxes[0] ?? '';
+            $stats['databases_size'] = $values->databases_size[0] ?? '';
+            $stats['databases_count'] = $values->databases_count[0] ?? '';
         }
 
         $this->log($row->meta->host_name . '|list-domains', serialize($response), 'input', true);

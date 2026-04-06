@@ -26,22 +26,22 @@
                 <?php
                 $this->Form->create(
                     $this->Html->safe(
-                        ((isset($module_row->meta->use_ssl) ? $module_row->meta->use_ssl : null) == 'true'
+                        (($module_row->meta->use_ssl ?? null) == 'true'
                             ? 'https://'
                             : 'http://') .
-                            (isset($module_row->meta->host_name) ? $module_row->meta->host_name : null) .
+                            ($module_row->meta->host_name ?? null) .
                             ':' .
-                            (isset($module_row->meta->port) ? $module_row->meta->port : null),
+                            ($module_row->meta->port ?? null),
                     ),
                     ['target' => '_blank'],
                 );
                 $this->Form->fieldHidden(
                     'user',
-                    isset($service_fields->virtualmin_username) ? $service_fields->virtualmin_username : null,
+                    $service_fields->virtualmin_username ?? null,
                 );
                 $this->Form->fieldHidden(
                     'password',
-                    isset($service_fields->virtualmin_password) ? $service_fields->virtualmin_password : null,
+                    $service_fields->virtualmin_password ?? null,
                 );
                 ?>
                 <a id="virtualmin_login<?php echo isset($service->id)
