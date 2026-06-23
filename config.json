@@ -35,5 +35,8 @@
             "virtualmin_domain"
         ]
     },
-    "icon": "bi-server"
+    "logo": {
+        "light": "views/default/images/logo.svg",
+        "dark": "views/default/images/logo-dark.svg"
+    }
 }
